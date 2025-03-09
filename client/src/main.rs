@@ -1,18 +1,8 @@
 use std::io::prelude::*;
-use std::io::BufReader;
 use std::io::Result;
 use std::net::TcpStream;
 use std::thread;
 use std::time::Duration;
-
-fn handle_server(mut stream: TcpStream) -> Result<()> {
-    let reader = BufReader::new(stream.try_clone()?);
-    for line in reader.lines() {
-        let l = line?;
-        println!("[CLIENT] Recieved (from server): {}\n", l);
-    }
-    Ok(())
-}
 
 fn main() -> Result<()> {
     let mut stream = TcpStream::connect("127.0.0.1:7878")?;
@@ -21,7 +11,7 @@ fn main() -> Result<()> {
         if count == 100 {
             break;
         }
-        let msg = String::from("[FROM CLIENT] Spamminnnnnng\n");
+        let msg = String::from("[FROM CLIENT1] Spamminnnnnng\n");
         stream.write(msg.as_bytes())?;
         let mut buffer = [0; 128];
         let raw = stream.read(&mut buffer)?;
