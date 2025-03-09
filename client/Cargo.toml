@@ -6,3 +6,7 @@ edition="2021"
 [[bin]]
 name="client"
 path="src/main.rs"
+
+[dependencies]
+# macroquad = "0.4.13"
+macroquad.workspace=true
