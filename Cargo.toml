@@ -1,0 +1,6 @@
+[workspace]
+members=["server", "client"]
+resolver = "2"
+
+[workspace.dependencies]
+threadpool = "1.8.1"
