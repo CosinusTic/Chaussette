@@ -1,12 +1,32 @@
-use client::net::sock_connect;
-use std::io::Result;
+use client::net;
+use std::{io::Write, thread, time::Duration};
 
-fn main() -> Result<()> {
+fn main() {
     let ip = "127.0.0.1";
     let port = "7878";
-    sock_connect(ip, port)
+    let client_name = "Nathan";
+    if let Ok(mut stream) = net::connect(ip, port) {
+        stream
+            .write(String::from(format!("[{}] connected\n", client_name)).as_bytes())
+            .unwrap();
+        println!("Connection to {}:{} established", ip, port);
+        let mut count = 0;
+        loop {
+            if count == 100 {
+                break;
+            }
+            let msg = String::from(format!("[{}] Spamminnnnnng\n", client_name));
+            net::write(&mut stream, msg.as_str()).unwrap();
+            let mut buffer = [0; 128];
+            let s: String = net::read(&mut stream, &mut buffer);
+            println!("Recieved: {}", s);
+            count += 1;
+            thread::sleep(Duration::from_millis(500));
+        }
+    } else {
+        eprintln!("[Warning] {} unreachable on port {}.", ip, port);
+    }
 }
-
 /*
 use macroquad::prelude::*;
 

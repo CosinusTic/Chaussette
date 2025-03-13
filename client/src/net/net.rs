@@ -1,10 +1,23 @@
 use std::io::prelude::*;
 use std::io::Result;
 use std::net::TcpStream;
-use std::thread;
-use std::time::Duration;
 
-pub fn sock_connect(ip: &str, port: &str) -> Result<()> {
+pub fn connect(ip: &str, port: &str) -> Result<TcpStream> {
+    let stream = TcpStream::connect(format!("{}:{}", ip, port));
+
+    Ok(stream?)
+}
+
+pub fn write(stream: &mut TcpStream, msg: &str) -> std::io::Result<usize> {
+    stream.write(msg.as_bytes())
+}
+
+pub fn read(stream: &mut TcpStream, buf: &mut [u8; 128]) -> String {
+    let raw = stream.read(buf).unwrap();
+    String::from_utf8_lossy(&buf[..raw]).to_string()
+}
+/*
+pub fn connectt(ip: &str, port: &str) -> Result<()> {
     let mut stream = TcpStream::connect(format!("{}:{}", ip, port).as_str())?;
     let mut count = 0;
     loop {
@@ -20,5 +33,7 @@ pub fn sock_connect(ip: &str, port: &str) -> Result<()> {
         count += 1;
         thread::sleep(Duration::from_millis(500));
     }
+
     Ok(())
 }
+*/

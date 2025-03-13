@@ -7,6 +7,9 @@ edition="2021"
 name="client"
 path="src/main.rs"
 
+#[lib]
+#name="client_lib"
+#path="src/lib.rs"
+
 [dependencies]
-# macroquad = "0.4.13"
 macroquad.workspace=true
