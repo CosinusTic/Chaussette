@@ -5,18 +5,19 @@ fn main() -> std::io::Result<()> {
     let port = "7878";
     let mut name_buff = String::new();
 
-    println!("Enter your name: ");
+    println!("Enter your name: \n");
     std::io::stdin().read_line(&mut name_buff)?;
+    let name = name_buff.trim_end();
 
     if let Ok(mut stream) = net::connect(ip, port) {
-        stream.write(String::from(format!("[{}] connected\n", name_buff)).as_bytes())?;
+        stream.write(String::from(format!("[{}] connected\n", name)).as_bytes())?;
         println!("Connection to {}:{} established", ip, port);
         let mut count = 0;
         loop {
             if count == 100 {
                 break;
             }
-            let msg = String::from(format!("[{}] Spamminnnnnng\n", name_buff));
+            let msg = String::from(format!("[{}] Spamminnnnnng\n", name));
             net::write(&mut stream, msg.as_str())?;
             let mut buffer = [0; 128];
             let s: String = net::read(&mut stream, &mut buffer);
