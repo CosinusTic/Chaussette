@@ -1,22 +1,23 @@
 use client::net;
 use std::{io::Write, thread, time::Duration};
-
-fn main() {
+fn main() -> std::io::Result<()> {
     let ip = "127.0.0.1";
     let port = "7878";
-    let client_name = "Nathan";
+    let mut name_buff = String::new();
+
+    println!("Enter your name: ");
+    std::io::stdin().read_line(&mut name_buff)?;
+
     if let Ok(mut stream) = net::connect(ip, port) {
-        stream
-            .write(String::from(format!("[{}] connected\n", client_name)).as_bytes())
-            .unwrap();
+        stream.write(String::from(format!("[{}] connected\n", name_buff)).as_bytes())?;
         println!("Connection to {}:{} established", ip, port);
         let mut count = 0;
         loop {
             if count == 100 {
                 break;
             }
-            let msg = String::from(format!("[{}] Spamminnnnnng\n", client_name));
-            net::write(&mut stream, msg.as_str()).unwrap();
+            let msg = String::from(format!("[{}] Spamminnnnnng\n", name_buff));
+            net::write(&mut stream, msg.as_str())?;
             let mut buffer = [0; 128];
             let s: String = net::read(&mut stream, &mut buffer);
             println!("Recieved: {}", s);
@@ -26,6 +27,8 @@ fn main() {
     } else {
         eprintln!("[Warning] {} unreachable on port {}.", ip, port);
     }
+
+    Ok(())
 }
 /*
 use macroquad::prelude::*;
