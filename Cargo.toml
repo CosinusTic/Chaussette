@@ -4,4 +4,5 @@ resolver = "2"
 
 [workspace.dependencies]
 threadpool = "1.8.1"
-macroquad = "0.4.13"
+reqwest = {version = "0.12.14", features = ["json"]}
+tokio = {version = "1.44.1", features = ["full"]}
