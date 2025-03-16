@@ -1,0 +1,26 @@
+--- Server architecture ---
+Bind to a TCP port (e.g., 7878) and start listening for incoming connections.
+Enter a loop that:
+
+    Accepts new clients.
+    Spawns a handler for each client connection (could be multithreaded or async).
+    Parses incoming client requests.
+    Based on the parsed request, executes the appropriate action:
+        If the request is to download a .png, fetch it and send it.
+        If the request is to deal damage, update game state and broadcast events.
+
+Send back responses based on what the client expects.
+
+--- Client architecture ---
+Connect to the server via TCP.
+Send an initial request, like "DOWNLOAD PIKACHU.PNG" or "ATTACK MONSTER 10".
+Enter a loop that:
+
+    Reads incoming messages.
+    Parses responses based on the message type.
+    If receiving a .png:
+        Read the file size from the header.
+        Read the binary data and save it as an image.
+    If receiving a game event (DAMAGE 10):
+        Process it accordingly.
+    If necessary, send follow-up requests.

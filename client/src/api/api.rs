@@ -31,13 +31,14 @@ pub async fn get_poke(name: &str) -> Result<String, Box<dyn std::error::Error>> 
     let path: String = format!("{}/pokemon/{}", BASE_URL, name);
     let body: String = reqwest::get(path.as_str()).await?.text().await?;
 
-    println!("body: {}", body);
-
     Ok(body)
 }
 
 pub fn map_poke(json: &str) -> Result<Pokemon, Box<dyn std::error::Error>> {
     let p: Pokemon = serde_json::from_str(json)?;
-    println!("Pokemon name: {}, id: {}", p.name, p.id);
+    println!(
+        "Pokemon name: {}, id: {}, weight: {}, png: {}",
+        p.name, p.id, p.weight, p.sprites.front_default
+    );
     Ok(p)
 }
