@@ -24,3 +24,7 @@ Enter a loop that:
     If receiving a game event (DAMAGE 10):
         Process it accordingly.
     If necessary, send follow-up requests.
+
+
+Roadmap:
+1- clean code & deport client api code to server

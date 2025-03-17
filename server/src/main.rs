@@ -1,8 +1,25 @@
-use std::io::{BufRead, BufReader, Result, Write};
+use server::api;
+use server::api::map_poke;
+use server::api::models::Pokemon;
+use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
 use std::sync::Arc;
 use threadpool::ThreadPool;
 
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let name = "Pikachu";
+    let json = api::get_poke(name).await?;
+    let p: Pokemon = api::map_poke(&json)?;
+    api::dl_poke_png(&p).await?;
+    println!(
+        "Pokemon name: {}, id: {}, weight: {}, png: {}",
+        p.name, p.id, p.weight, p.sprites.front_default
+    );
+    Ok(())
+}
+
+/*
 fn handle_client(mut stream: TcpStream) -> Result<()> {
     let reader = BufReader::new(stream.try_clone()?);
     let mut n = 0;
@@ -40,3 +57,4 @@ fn main() -> Result<()> {
 
     Ok(())
 }
+*/

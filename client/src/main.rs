@@ -1,17 +1,5 @@
-use client::api;
-use client::api::map_poke;
-use client::api::models::Pokemon;
 use client::net;
 use std::{io::Write, thread, time::Duration};
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let json = api::get_poke("pikachu").await?;
-    let p: Pokemon = map_poke(json.as_str())?;
-
-    Ok(())
-}
-
-/*
 fn main() -> std::io::Result<()> {
     let ip = "127.0.0.1";
     let port = "7878";
@@ -43,4 +31,3 @@ fn main() -> std::io::Result<()> {
 
     Ok(())
 }
-*/
