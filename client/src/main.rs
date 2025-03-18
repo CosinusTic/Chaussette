@@ -1,5 +1,27 @@
 use client::net;
-use std::{io::Write, thread, time::Duration};
+use proto::proto;
+use std::{
+    io::{Read, Write},
+    thread,
+    time::Duration,
+};
+
+fn main() -> std::io::Result<()> {
+    let ip = "127.0.0.1";
+    let port = "7878";
+
+    let mut buffer = [0; 1024];
+    if let Ok(mut stream) = net::connect(ip, port) {
+        stream.read(&mut buffer)?;
+        if let Some(msg) = proto::Message::decode(&buffer) {
+            println!("Recieved: {:?}", msg);
+        }
+    }
+
+    Ok(())
+}
+
+/*
 fn main() -> std::io::Result<()> {
     let ip = "127.0.0.1";
     let port = "7878";
@@ -31,3 +53,4 @@ fn main() -> std::io::Result<()> {
 
     Ok(())
 }
+*/
