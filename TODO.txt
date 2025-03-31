@@ -28,3 +28,8 @@ Enter a loop that:
 
 Roadmap:
 1- clean code & deport client api code to server
+
+
+--- Docker ---
+- Dockerise the project
+- Configure Docker to bridge (default)
